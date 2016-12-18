@@ -1,0 +1,148 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <style>
+      *, *::after, *::before { box-sizing: border-box; }
+      body { margin: 0; padding: 0; }
+
+      @media (min-width:600px) {
+
+        html {
+          background: black;
+          --remote-video-width: 500px;
+        }
+
+        body {
+          margin: 0 auto;
+        }
+
+        header {
+          display: none;
+          position: fixed; top: 0; bottom: 0; left: 0;
+          width: 200px;
+          background: lightgreen;
+        }
+
+        .videos {
+          background-color: transparent;
+          width: var(--remote-video-width);
+          margin: 0 auto;
+        }
+
+        .local-video {
+          width: 200px; height: 200px;
+          margin: 0 0 0 auto;
+          border: 1px solid rgba(255,255,255,0.25);
+          position: fixed; 
+          bottom: 76px;
+          left: calc( (100vw / 2) + 50px );
+        }
+
+        .remote-video {
+          width: var(--remote-video-width);
+          height: var(--remote-video-width);
+        }
+
+        .local-video > video, .remote-video > video {
+          width: inherit; height: inherit;
+        }
+
+        .ctrl-buttons {
+          display: flex;
+          flex-flow: row nowrap;
+          background-color: white;
+          margin: 0; padding: 0;
+          width: var(--remote-video-width);
+          position: fixed;
+          bottom: 0; 
+          left: calc( (100vw / 2) - (var(--remote-video-width) / 2) );
+        }
+
+        .ctrl-buttons > button {
+          line-height: 56px;
+          flex: 1 0 auto;
+          background: transparent;
+          border: none;
+          margin: 0; padding: 0;
+        }
+
+        .ctrl-buttons > button + button {
+          border-left: 1px solid rgba(0,0,0,0.12);
+        }
+      }
+
+      @media (max-width:600px) {
+        header {
+          display: none;
+        }
+
+        body {
+          background: black;
+        }
+
+        .local-video {
+          z-index: 100;
+          background: rgba(255,255,255,0.25);
+          position: fixed; bottom: 75px; right: 19px;;
+          width: 100px; height: 100px;
+          overflow: hidden;
+          border: 1px solid rgba(255,255,255,0.25);
+        }
+
+        .remote-video {
+          background: transparent;
+          position: fixed; top: 0; left: 0; right: 0;
+          width: 100vw; height: 100vw;
+          overflow: hidden;
+        }
+
+        .local-video > video, .remote-video > video {
+          width: inherit; height: inherit;
+        }
+
+        .ctrl-buttons {
+          display: flex;
+          flex-flow: row nowrap;
+          position: fixed; bottom: 0; left: 0; right: 0;
+          background: white;
+          box-shadow: 0 0 8px rgba(0,0,0,0.24);
+          overflow: hidden;
+          text-align: center;
+        }
+
+        .ctrl-buttons > button {
+          line-height: 56px;
+          flex: 1 0 auto;
+          background: transparent;
+          border: none;
+          margin: 0; padding: 0;
+        }
+
+        .ctrl-buttons > button + button {
+          border-left: 1px solid rgba(0,0,0,0.12);
+        }
+
+      }
+    </style>
+  </head>
+  <body>
+    <header>
+
+    </header>
+    <div class="videos">
+      <div class="remote-video"><video id="remoteVideo" autoplay></video></div>
+      <div class="local-video"><video id="localVideo" autoplay muted></video></div>
+    </div>
+    <div class="ctrl-buttons">
+      <button class="start-ctrl">Start Video</button>
+      <button class="stop-ctrl">Stop Video/Audio</button>
+      <button class="mute-ctrl">Mute Audio</button>
+    </div>
+    <script src="{% static 'webrtc.js' %}"></script>
+    <script> pageReady(); </script>
+  </body>
+</html>
